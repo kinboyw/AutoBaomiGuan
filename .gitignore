@@ -30,3 +30,6 @@ Thumbs.db
 
 /.vscode/
 credentials.json
+dist
+build
+main.spec
