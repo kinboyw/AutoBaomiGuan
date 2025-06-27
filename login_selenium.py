@@ -2,6 +2,10 @@ from seleniumwire import webdriver  # 注意用 seleniumwire 以便抓包
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
+import os
 import time
 import json
 import logging
@@ -11,9 +15,13 @@ import colorama
 def LoginWithSelenium(username, password):
     colorama.init(autoreset=True)
     LOGIN_URL = 'https://www.baomi.org.cn/login?siteId=95'  # 登录页URL
+    os.environ['WDM_MIRROR'] = 'https://registry.npmmirror.com/-/binary/chromedriver'
     options = webdriver.ChromeOptions()
     options.add_argument('--disable-blink-features=AutomationControlled')
-    driver = webdriver.Chrome(options=options)
+
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=options)
+
     token = None
     try:
         driver.get(LOGIN_URL)
