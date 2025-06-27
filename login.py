@@ -49,6 +49,8 @@ def encrypt(data):
 
 def login(loginName, passWord):
     try:
+        print(f"加密用户名： {encrypt(loginName)}")
+        print(f"加密密码： {encrypt(passWord)}")
         login_url = "https://www.baomi.org.cn/portal/main-api/loginInNew.do"
         payload = {
             "loginName": encrypt(loginName),
@@ -71,8 +73,9 @@ def login(loginName, passWord):
             raise Exception(f"登录请求失败，状态码: {response.status_code}")
 
         response_data = response.json()
-        if 'token' not in response_data:
-            error_msg = response_data.get('message', '未知错误')
+        if not response_data.get('token'):
+            # 优先从 error 字段获取错误信息
+            error_msg = response_data.get('error', {}).get('errorMsg', '未知错误')
             logging.error(f"{Fore.RED}登录失败: {error_msg}{Style.RESET_ALL}")
             raise Exception(f"登录失败: {error_msg}")
 
@@ -85,3 +88,4 @@ def login(loginName, passWord):
 
 if __name__ == '__main__':
     encrypt("za123456")
+

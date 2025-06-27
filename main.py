@@ -5,6 +5,7 @@ import json
 import os
 from colorama import init, Fore, Style
 import login
+import login_selenium
 
 # Initialize colorama
 init()
@@ -100,7 +101,7 @@ def get_user_credentials():
     
     # 执行登录
     try:
-        token = login.login(loginName, passWord)
+        token = login_selenium.LoginWithSelenium(loginName, passWord)
         print(f"{Fore.GREEN}登录成功获取到token!{Style.RESET_ALL}")
         
         # 自动保存凭证
